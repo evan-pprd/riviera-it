@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Devis Gratuit — RIVIERA-IT</title>
+  <meta name="description" content="Obtenez votre devis gratuit en 3 minutes. Technicien informatique Nice & Remote.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:  #0D2B4E;
+      --azure: #0077B6;
+      --gold:  #C9A84C;
+      --light: #E8F4FD;
+      --dark:  #12263A;
+      --white: #FFFFFF;
+      --muted: #6B7F92;
+      --error: #E74C3C;
+      --success: #27AE60;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--navy);
+      color: var(--white);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── NAV ── */
+    nav {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 6vw; height: 64px;
+      border-bottom: 1px solid rgba(201,168,76,0.2);
+      background: rgba(13,43,78,0.98);
+      position: sticky; top: 0; z-index: 10;
+    }
+    .nav-logo {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800; font-size: 1.2rem; letter-spacing: .08em;
+      color: var(--white); text-decoration: none;
+    }
+    .nav-logo span { color: var(--gold); }
+    .nav-back {
+      color: rgba(255,255,255,0.6); text-decoration: none;
+      font-size: .88rem; font-weight: 500;
+      display: flex; align-items: center; gap: .4rem;
+      transition: color .2s;
+    }
+    .nav-back:hover { color: var(--gold); }
+
+    /* ── MAIN ── */
+    main {
+      flex: 1;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: flex-start;
+      padding: 60px 20px 80px;
+    }
+
+    /* ── HEADER ── */
+    .form-header {
+      text-align: center; max-width: 560px; margin-bottom: 3rem;
+    }
+    .form-tag {
+      display: inline-block;
+      font-size: .72rem; font-weight: 700; letter-spacing: .14em;
+      text-transform: uppercase; color: var(--gold);
+      background: rgba(201,168,76,0.1);
+      border: 1px solid rgba(201,168,76,0.3);
+      padding: .3rem .9rem; border-radius: 2px;
+      margin-bottom: 1.2rem;
+    }
+    .form-header h1 {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800; font-size: clamp(1.8rem, 4vw, 2.6rem);
+      line-height: 1.15; margin-bottom: .9rem;
+    }
+    .form-header h1 em { font-style: normal; color: var(--gold); }
+    .form-header p {
+      color: rgba(255,255,255,0.55); font-size: 1rem; line-height: 1.6;
+    }
+
+    /* ── PROGRESS ── */
+    .progress-wrapper {
+      width: 100%; max-width: 580px; margin-bottom: 2.5rem;
+    }
+    .progress-steps {
+      display: flex; justify-content: space-between;
+      margin-bottom: .75rem; position: relative;
+    }
+    .progress-steps::before {
+      content: '';
+      position: absolute; top: 16px; left: 0; right: 0; height: 2px;
+      background: rgba(255,255,255,0.1);
+      z-index: 0;
+    }
+    .progress-line {
+      position: absolute; top: 16px; left: 0; height: 2px;
+      background: var(--gold); z-index: 1;
+      transition: width .4s ease;
+    }
+    .step-dot {
+      width: 32px; height: 32px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: .8rem;
+      border: 2px solid rgba(255,255,255,0.15);
+      background: var(--navy); color: rgba(255,255,255,0.4);
+      position: relative; z-index: 2; transition: all .3s;
+      flex-shrink: 0;
+    }
+    .step-dot.active { border-color: var(--gold); color: var(--gold); }
+    .step-dot.done { background: var(--gold); border-color: var(--gold); color: var(--navy); }
+    .step-labels {
+      display: flex; justify-content: space-between;
+    }
+    .step-label {
+      font-size: .7rem; font-weight: 600; letter-spacing: .05em;
+      text-transform: uppercase; color: rgba(255,255,255,0.3);
+      text-align: center; width: 32px; transition: color .3s;
+    }
+    .step-label.active { color: var(--gold); }
+    .step-label.done { color: rgba(255,255,255,0.5); }
+
+    /* ── CARD ── */
+    .form-card {
+      width: 100%; max-width: 580px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 16px;
+      padding: 2.5rem 2.25rem;
+      backdrop-filter: blur(4px);
+    }
+
+    /* ── STEP HEADER ── */
+    .step-header { margin-bottom: 2rem; }
+    .step-eyebrow {
+      font-size: .72rem; font-weight: 700; letter-spacing: .12em;
+      text-transform: uppercase; color: var(--gold); margin-bottom: .5rem;
+    }
+    .step-title {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800; font-size: 1.3rem; color: var(--white); line-height: 1.25;
+    }
+
+    /* ── STEPS ── */
+    .step { display: none; }
+    .step.active {
+      display: block;
+      animation: stepIn .3s ease;
+    }
+    @keyframes stepIn {
+      from { opacity: 0; transform: translateX(16px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    /* ── FIELDS ── */
+    .field { margin-bottom: 1.25rem; }
+    .field label {
+      display: block; font-size: .82rem; font-weight: 600;
+      letter-spacing: .04em; color: rgba(255,255,255,0.6);
+      text-transform: uppercase; margin-bottom: .5rem;
+    }
+    .field label .required { color: var(--gold); margin-left: 2px; }
+    .field label .optional {
+      font-weight: 400; color: rgba(255,255,255,0.35);
+      text-transform: none; letter-spacing: 0; font-size: .78rem;
+    }
+    .field input, .field textarea {
+      width: 100%;
+      background: rgba(255,255,255,0.07);
+      border: 1.5px solid rgba(255,255,255,0.15);
+      border-radius: 8px; color: var(--white);
+      font-family: 'Inter', sans-serif; font-size: 1rem;
+      padding: .85rem 1.1rem; outline: none;
+      transition: border-color .2s, background .2s;
+    }
+    .field input::placeholder, .field textarea::placeholder {
+      color: rgba(255,255,255,0.25);
+    }
+    .field input:focus, .field textarea:focus {
+      border-color: var(--gold);
+      background: rgba(255,255,255,0.09);
+    }
+    .field input.error, .field textarea.error {
+      border-color: var(--error);
+    }
+    .field-error {
+      font-size: .78rem; color: var(--error);
+      margin-top: .4rem; display: none;
+    }
+    .field-error.visible { display: block; }
+    .field textarea { min-height: 140px; resize: vertical; line-height: 1.6; }
+
+    /* ── PROBLEM CHOICES ── */
+    .choices-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: .75rem; margin-bottom: 1.5rem;
+    }
+    .choice-card {
+      background: rgba(255,255,255,0.05);
+      border: 1.5px solid rgba(255,255,255,0.12);
+      border-radius: 10px; padding: 1rem .9rem;
+      cursor: pointer; transition: all .2s;
+      display: flex; align-items: center; gap: .65rem;
+    }
+    .choice-card:hover {
+      border-color: rgba(201,168,76,0.5);
+      background: rgba(201,168,76,0.07);
+    }
+    .choice-card.selected {
+      border-color: var(--gold);
+      background: rgba(201,168,76,0.12);
+    }
+    .choice-card.selected .choice-check { opacity: 1; }
+    .choice-icon { font-size: 1.3rem; flex-shrink: 0; }
+    .choice-label {
+      font-size: .82rem; font-weight: 600;
+      color: rgba(255,255,255,0.8); line-height: 1.3;
+      text-transform: uppercase; letter-spacing: .03em;
+    }
+    .choice-card.selected .choice-label { color: var(--white); }
+    .choice-check {
+      margin-left: auto; font-size: .9rem;
+      opacity: 0; transition: opacity .2s; color: var(--gold);
+      flex-shrink: 0;
+    }
+    .choices-error {
+      font-size: .78rem; color: var(--error);
+      margin-bottom: 1rem; display: none;
+    }
+    .choices-error.visible { display: block; }
+
+    /* ── NAVIGATION BTNS ── */
+    .form-nav {
+      display: flex; gap: 1rem; margin-top: 2rem;
+    }
+    .btn-back {
+      flex: 1; background: transparent;
+      border: 1.5px solid rgba(255,255,255,0.2);
+      color: rgba(255,255,255,0.6); border-radius: 8px;
+      font-family: 'Montserrat', sans-serif; font-weight: 600;
+      font-size: .9rem; padding: .85rem;
+      cursor: pointer; transition: all .2s;
+    }
+    .btn-back:hover { border-color: var(--gold); color: var(--gold); }
+    .btn-next {
+      flex: 2; background: var(--gold); color: var(--navy);
+      border: none; border-radius: 8px;
+      font-family: 'Montserrat', sans-serif; font-weight: 700;
+      font-size: .95rem; padding: .9rem;
+      cursor: pointer; transition: opacity .2s, transform .15s;
+    }
+    .btn-next:hover { opacity: .88; transform: translateY(-1px); }
+    .btn-submit {
+      width: 100%; background: var(--azure); color: var(--white);
+      border: none; border-radius: 8px;
+      font-family: 'Montserrat', sans-serif; font-weight: 700;
+      font-size: 1rem; padding: 1rem;
+      cursor: pointer; transition: opacity .2s, transform .15s;
+      margin-top: 2rem;
+    }
+    .btn-submit:hover { opacity: .88; transform: translateY(-1px); }
+
+    /* ── SUCCESS ── */
+    .step-success { text-align: center; padding: 1rem 0 .5rem; }
+    .success-icon {
+      font-size: 4rem; margin-bottom: 1.5rem; display: block;
+      animation: popIn .4s cubic-bezier(.34,1.56,.64,1);
+    }
+    @keyframes popIn {
+      from { transform: scale(0); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+    .success-title {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800; font-size: 1.6rem; color: var(--white);
+      margin-bottom: .75rem; line-height: 1.2;
+    }
+    .success-msg {
+      color: rgba(255,255,255,0.6); font-size: 1rem;
+      line-height: 1.65; margin-bottom: 2.5rem; max-width: 400px; margin-left: auto; margin-right: auto;
+    }
+    .success-msg strong { color: var(--gold); }
+    .btn-calendly {
+      display: inline-flex; align-items: center; gap: .6rem;
+      background: var(--gold); color: var(--navy);
+      font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: .95rem;
+      padding: 1rem 2rem; border-radius: 8px; text-decoration: none;
+      transition: opacity .2s, transform .15s; margin-bottom: 1.25rem;
+    }
+    .btn-calendly:hover { opacity: .88; transform: translateY(-2px); }
+    .btn-home {
+      display: block; color: rgba(255,255,255,0.45);
+      font-size: .85rem; text-decoration: none; margin-top: .5rem;
+      transition: color .2s;
+    }
+    .btn-home:hover { color: var(--gold); }
+
+    /* ── FOOTER ── */
+    footer {
+      text-align: center; padding: 1.5rem;
+      color: rgba(255,255,255,0.25); font-size: .78rem;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+    footer a { color: var(--gold); text-decoration: none; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 540px) {
+      .form-card { padding: 1.75rem 1.25rem; }
+      .choices-grid { grid-template-columns: 1fr; }
+      .form-nav { flex-direction: column-reverse; }
+      .btn-back { flex: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-logo">RIVIERA<span>-IT</span></a>
+  <a href="index.html" class="nav-back">← Retour au site</a>
+</nav>
+
+<!-- MAIN -->
+<main>
+
+  <!-- HEADER -->
+  <div class="form-header">
+    <div class="form-tag">⚡ Devis 100% gratuit</div>
+    <h1>Dites-nous tout,<em>on s'occupe du reste.</em></h1>
+    <p>3 étapes · 3 minutes · Réponse sous 24h. Aucun engagement.</p>
+  </div>
+
+  <!-- PROGRESS -->
+  <div class="progress-wrapper">
+    <div class="progress-steps">
+      <div class="progress-line" id="progressLine" style="width:0%"></div>
+      <div class="step-dot active" id="dot1">1</div>
+      <div class="step-dot" id="dot2">2</div>
+      <div class="step-dot" id="dot3">3</div>
+      <div class="step-dot" id="dot4">✓</div>
+    </div>
+    <div class="step-labels">
+      <div class="step-label active" id="lbl1">Infos</div>
+      <div class="step-label" id="lbl2">Problème</div>
+      <div class="step-label" id="lbl3">Description</div>
+      <div class="step-label" id="lbl4">Envoi</div>
+    </div>
+  </div>
+
+  <!-- CARD -->
+  <div class="form-card">
+
+    <!-- STEP 1 : INFOS PERSONNELLES -->
+    <div class="step active" id="step1">
+      <div class="step-header">
+        <div class="step-eyebrow">Étape 1 sur 3</div>
+        <div class="step-title">Informations personnelles</div>
+      </div>
+
+      <div class="field">
+        <label for="prenom">Prénom <span class="required">*</span></label>
+        <input type="text" id="prenom" placeholder="Ex : Sophie" autocomplete="given-name">
+        <div class="field-error" id="err-prenom">Veuillez renseigner votre prénom.</div>
+      </div>
+
+      <div class="field">
+        <label for="nom">Nom <span class="required">*</span></label>
+        <input type="text" id="nom" placeholder="Ex : Martin" autocomplete="family-name">
+        <div class="field-error" id="err-nom">Veuillez renseigner votre nom.</div>
+      </div>
+
+      <div class="field">
+        <label for="tel">Numéro de téléphone <span class="optional">(facultatif)</span></label>
+        <input type="tel" id="tel" placeholder="Ex : 06 12 34 56 78" autocomplete="tel">
+      </div>
+
+      <div class="field">
+        <label for="email">Adresse e-mail <span class="required">*</span></label>
+        <input type="email" id="email" placeholder="Ex : sophie@email.com" autocomplete="email">
+        <div class="field-error" id="err-email">Veuillez renseigner une adresse e-mail valide.</div>
+      </div>
+
+      <div class="form-nav" style="margin-top:1.5rem;">
+        <button class="btn-next" onclick="goToStep(2)">Continuer →</button>
+      </div>
+    </div>
+
+    <!-- STEP 2 : TYPE DE PROBLÈME -->
+    <div class="step" id="step2">
+      <div class="step-header">
+        <div class="step-eyebrow">Étape 2 sur 3</div>
+        <div class="step-title">Type de problème</div>
+      </div>
+
+      <div class="choices-error" id="err-type">Veuillez sélectionner un type de problème.</div>
+      <div class="choices-grid">
+        <div class="choice-card" onclick="selectProblem(this, 'PC lent / virus')">
+          <span class="choice-icon">🐢</span>
+          <span class="choice-label">PC lent / virus</span>
+          <span class="choice-check">✓</span>
+        </div>
+        <div class="choice-card" onclick="selectProblem(this, 'Migration Windows 11')">
+          <span class="choice-icon">🪟</span>
+          <span class="choice-label">Migration Windows 11</span>
+          <span class="choice-check">✓</span>
+        </div>
+        <div class="choice-card" onclick="selectProblem(this, 'Réinitialisation / nettoyage')">
+          <span class="choice-icon">🔄</span>
+          <span class="choice-label">Réinitialisation / nettoyage</span>
+          <span class="choice-check">✓</span>
+        </div>
+        <div class="choice-card" onclick="selectProblem(this, 'Changement RAM / SSD / batterie')">
+          <span class="choice-icon">🔧</span>
+          <span class="choice-label">Changement RAM / SSD / batterie</span>
+          <span class="choice-check">✓</span>
+        </div>
+        <div class="choice-card" onclick="selectProblem(this, 'Installation imprimante')">
+          <span class="choice-icon">🖨️</span>
+          <span class="choice-label">Installation imprimante</span>
+          <span class="choice-check">✓</span>
+        </div>
+        <div class="choice-card" onclick="selectProblem(this, 'Problème réseau / Wi-Fi')">
+          <span class="choice-icon">🌐</span>
+          <span class="choice-label">Problème réseau / Wi-Fi</span>
+          <span class="choice-check">✓</span>
+        </div>
+        <div class="choice-card" style="grid-column: 1/-1;" onclick="selectProblem(this, 'Autre')">
+          <span class="choice-icon">❓</span>
+          <span class="choice-label">Autre</span>
+          <span class="choice-check">✓</span>
+        </div>
+      </div>
+      <input type="hidden" id="problemType">
+
+      <div class="form-nav">
+        <button class="btn-back" onclick="goToStep(1)">← Retour</button>
+        <button class="btn-next" onclick="goToStep(3)">Continuer →</button>
+      </div>
+    </div>
+
+    <!-- STEP 3 : DESCRIPTION -->
+    <div class="step" id="step3">
+      <div class="step-header">
+        <div class="step-eyebrow">Étape 3 sur 3</div>
+        <div class="step-title">Décrivez votre problème</div>
+      </div>
+
+      <div class="field">
+        <label for="description">Description <span class="required">*</span></label>
+        <textarea id="description" placeholder="Ex : Mon PC s'allume mais reste bloqué sur l'écran de démarrage depuis ce matin. J'entends les ventilateurs tourner mais l'écran reste noir..."></textarea>
+        <div class="field-error" id="err-desc">Veuillez décrire votre problème en quelques mots.</div>
+      </div>
+
+      <div class="form-nav" style="flex-direction:column; gap:.75rem;">
+        <button class="btn-next" onclick="submitForm()" style="flex:none;">
+          📨 Envoyer ma demande de devis
+        </button>
+        <button class="btn-back" onclick="goToStep(2)" style="flex:none;">← Retour</button>
+      </div>
+    </div>
+
+    <!-- STEP 4 : SUCCÈS -->
+    <div class="step" id="step4">
+      <div class="step-success">
+        <span class="success-icon">✅</span>
+        <div class="success-title">Merci pour ces informations !</div>
+        <p class="success-msg">
+          Vous aurez une réponse sous <strong>24h</strong> à l'adresse <strong id="confirmEmail"></strong>.<br>
+          En attendant, vous pouvez réserver votre créneau directement.
+        </p>
+        <a href="https://calendly.com/contact-riviera-it" target="_blank" class="btn-calendly">
+          📅 Réserver mon créneau maintenant
+        </a>
+        <a href="index.html" class="btn-home">← Retourner sur le site</a>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2026 RIVIERA-IT · Technicien informatique indépendant · <a href="mailto:contact@riviera-it.fr">contact@riviera-it.fr</a></p>
+</footer>
+
+<script>
+  let currentStep = 1;
+
+  function updateProgress(step) {
+    const lines = [0, 0, 33.3, 66.6, 100];
+    document.getElementById('progressLine').style.width = lines[step] + '%';
+
+    for (let i = 1; i <= 4; i++) {
+      const dot = document.getElementById('dot' + i);
+      const lbl = document.getElementById('lbl' + i);
+      dot.classList.remove('active', 'done');
+      lbl.classList.remove('active', 'done');
+      if (i < step) { dot.classList.add('done'); dot.textContent = '✓'; lbl.classList.add('done'); }
+      else if (i === step) { dot.classList.add('active'); dot.textContent = i < 4 ? i : '✓'; lbl.classList.add('active'); }
+      else { dot.textContent = i < 4 ? i : '✓'; }
+    }
+  }
+
+  function showStep(n) {
+    document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+    document.getElementById('step' + n).classList.add('active');
+    currentStep = n;
+    updateProgress(n);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function goToStep(n) {
+    if (n > currentStep) {
+      if (!validateStep(currentStep)) return;
+    }
+    showStep(n);
+  }
+
+  function validateStep(step) {
+    if (step === 1) {
+      let ok = true;
+      const prenom = document.getElementById('prenom');
+      const nom = document.getElementById('nom');
+      const email = document.getElementById('email');
+
+      if (!prenom.value.trim()) {
+        prenom.classList.add('error');
+        document.getElementById('err-prenom').classList.add('visible');
+        ok = false;
+      } else {
+        prenom.classList.remove('error');
+        document.getElementById('err-prenom').classList.remove('visible');
+      }
+
+      if (!nom.value.trim()) {
+        nom.classList.add('error');
+        document.getElementById('err-nom').classList.add('visible');
+        ok = false;
+      } else {
+        nom.classList.remove('error');
+        document.getElementById('err-nom').classList.remove('visible');
+      }
+
+      const emailVal = email.value.trim();
+      const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailVal);
+      if (!emailOk) {
+        email.classList.add('error');
+        document.getElementById('err-email').classList.add('visible');
+        ok = false;
+      } else {
+        email.classList.remove('error');
+        document.getElementById('err-email').classList.remove('visible');
+      }
+      return ok;
+    }
+
+    if (step === 2) {
+      if (!document.getElementById('problemType').value) {
+        document.getElementById('err-type').classList.add('visible');
+        return false;
+      }
+      document.getElementById('err-type').classList.remove('visible');
+      return true;
+    }
+
+    if (step === 3) {
+      const desc = document.getElementById('description');
+      if (!desc.value.trim()) {
+        desc.classList.add('error');
+        document.getElementById('err-desc').classList.add('visible');
+        return false;
+      }
+      desc.classList.remove('error');
+      document.getElementById('err-desc').classList.remove('visible');
+      return true;
+    }
+
+    return true;
+  }
+
+  function selectProblem(el, value) {
+    document.querySelectorAll('.choice-card').forEach(c => c.classList.remove('selected'));
+    el.classList.add('selected');
+    document.getElementById('problemType').value = value;
+    document.getElementById('err-type').classList.remove('visible');
+  }
+
+  function submitForm() {
+    if (!validateStep(3)) return;
+
+    const prenom = document.getElementById('prenom').value.trim();
+    const nom = document.getElementById('nom').value.trim();
+    const tel = document.getElementById('tel').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const type = document.getElementById('problemType').value;
+    const desc = document.getElementById('description').value.trim();
+
+    const subject = encodeURIComponent('Demande de devis — ' + prenom + ' ' + nom);
+    const body = encodeURIComponent(
+      '=== NOUVELLE DEMANDE DE DEVIS — RIVIERA-IT ===\n\n' +
+      'INFORMATIONS PERSONNELLES\n' +
+      '─────────────────────────\n' +
+      'Prénom    : ' + prenom + '\n' +
+      'Nom       : ' + nom + '\n' +
+      'Téléphone : ' + (tel || 'Non renseigné') + '\n' +
+      'Email     : ' + email + '\n\n' +
+      'TYPE DE PROBLÈME\n' +
+      '─────────────────\n' +
+      type + '\n\n' +
+      'DESCRIPTION\n' +
+      '────────────\n' +
+      desc + '\n\n' +
+      '─────────────────────────────────────────\n' +
+      'Envoyé depuis riviera-it.fr'
+    );
+
+    window.location.href = 'mailto:contact@riviera-it.fr?subject=' + subject + '&body=' + body;
+    document.getElementById('confirmEmail').textContent = email;
+    showStep(4);
+  }
+
+  updateProgress(1);
+</script>
+
+</body>
+</html>
